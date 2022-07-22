@@ -6,6 +6,7 @@ TagManager:
   tags:
   - playerAttack
   - enemy
+  - money
   layers:
   - Default
   - TransparentFX

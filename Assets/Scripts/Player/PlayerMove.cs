@@ -131,4 +131,13 @@ public class PlayerMove : MonoBehaviour
             playerAnimation.EndAttack();
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("money"))
+        {
+            Destroy(collision.gameObject);
+            Global.Instance.money++;
+        }
+    }
 }
