@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
     public float damageTimer;
     public int damageDealOnCollision;
     public GameObject leftPatrolPoint;
+    public SpriteRenderer sprite;
+    //private float maxDamageTimer;
     
     public GameObject rightPatrolPoint;
     protected bool isPatrolling;
@@ -20,6 +22,8 @@ public class Enemy : MonoBehaviour
 
     protected void Awake()
     {
+        //maxDamageTimer = 0.2f;
+        sprite = GetComponent<SpriteRenderer>();
         if (leftPatrolPoint != null && rightPatrolPoint != null)
         {
             isPatrolling = true;
@@ -29,10 +33,16 @@ public class Enemy : MonoBehaviour
         else isPatrolling = false;
     }
 
-    protected void FixedUpdate()
+    virtual protected void FixedUpdate()
+    {
+        EnemyFixedUpdate();
+    }
+
+    protected void EnemyFixedUpdate()
     {
         if (damageTimer >= 0) damageTimer -= Time.fixedDeltaTime;
         if (isPatrolling) Patrolling();
+        if (damageTimer > 0) ChangeColorOnHit();
     }
     protected void OnTriggerEnter2D(Collider2D collision)
     {
@@ -47,7 +57,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    protected void TakeDamage(int damage)
+    protected void ChangeColorOnHit()
+    {
+        float color = 1 - damageTimer * 5;
+        sprite.color = new(1, color, color, 1);
+    }
+
+    virtual protected void TakeDamage(int damage)
     {
         if (damageTimer <= 0)
         {

@@ -11,11 +11,23 @@ public class Mushroom : Enemy
         if (isPatrolling) anim.SetBool("isPatrolling", true);
     }
 
-   
-    void Update()
+    override protected void FixedUpdate()
     {
-        
+        EnemyFixedUpdate();
     }
+
+   /* override protected void TakeDamage(int damage)
+    {
+        if (damageTimer <= 0)
+        {
+            hp -= damage;
+            damageTimer = 0.2f;
+            if (hp <= 0) Dead(0.5f);
+            else anim.SetBool("isHit", true);
+        }
+    }*/
+    
+
 
     override protected void Dead(float timeToDestroy)
     {
