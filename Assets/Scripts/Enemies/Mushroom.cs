@@ -15,17 +15,6 @@ public class Mushroom : Enemy
     {
         EnemyFixedUpdate();
     }
-
-   /* override protected void TakeDamage(int damage)
-    {
-        if (damageTimer <= 0)
-        {
-            hp -= damage;
-            damageTimer = 0.2f;
-            if (hp <= 0) Dead(0.5f);
-            else anim.SetBool("isHit", true);
-        }
-    }*/
     
 
 
