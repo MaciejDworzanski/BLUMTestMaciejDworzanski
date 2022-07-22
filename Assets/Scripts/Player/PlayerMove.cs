@@ -137,14 +137,17 @@ public class PlayerMove : MonoBehaviour
 
     public void TakeDamage(int damage, bool pushLeft)
     {
-        Global.Instance.hp -= damage;
-        Global.Instance.SetHPOnUI();
-        damageTimer = 0.5f;
-        if(pushLeft) rig.AddForce(new Vector2(-1, 1) * 300);
-        else rig.AddForce(new Vector2(1, 1) * 300);
-        if (Global.Instance.hp <= 0)
+        if (damageTimer <= 0)
         {
-            Dead();
+            Global.Instance.hp -= damage;
+            Global.Instance.SetHPOnUI();
+            damageTimer = 0.5f;
+            if (pushLeft) rig.AddForce(new Vector2(-1, 1) * 300);
+            else rig.AddForce(new Vector2(1, 1) * 300);
+            if (Global.Instance.hp <= 0)
+            {
+                Dead();
+            }
         }
     }
 
