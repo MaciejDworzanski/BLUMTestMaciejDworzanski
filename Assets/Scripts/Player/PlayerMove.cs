@@ -1,74 +1,82 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField]
     private float jumpForce;
+
     [SerializeField]
-    private float speed;
-    [SerializeField]
-    private float maxSpeed;
-    [SerializeField]
-    private float speedAcceleration;
-    public LayerMask groundLayer;
+    private LayerMask groundLayer;
     private bool isGrounded;
     [SerializeField]
     private List<GameObject> groundPoitnts;
+
     private Rigidbody2D rig;
-    // Start is called before the first frame update
-    void Start()
+    PlayerInputActions playerInputActions;
+
+    private float speed;
+    [SerializeField]
+    private GameObject attackObject;
+
+    private float attackTimer;
+
+    private void Awake()
     {
         rig = GetComponent<Rigidbody2D>();
+        playerInputActions = new();
+        playerInputActions.Player.Enable();
+        playerInputActions.Player.Jump.performed += Jump;
+        playerInputActions.Player.Attack.performed += Attack;
+        attackTimer = 0;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        Jump();
-        Move();
+        speed = playerInputActions.Player.Movement.ReadValue<float>() / 10;
+        HandleTimers();
+        Movement();
     }
 
-    private void Move()
+
+    public void Movement()
     {
-        bool isMoving = false;
-        //if(Physics2D.OverlapBox(transform.position, new(0.035))
-        if(Input.GetKey(KeyCode.A))
-        {
-            isMoving = true;
-            if (speed > -maxSpeed)
-            {
-                speed -= speedAcceleration;
-            }
-            else speed = -maxSpeed;
-        }
-        if(Input.GetKey(KeyCode.D))
-        {
-            isMoving = true;
-            if (speed < maxSpeed)
-            {
-                speed += speedAcceleration;
-            }
-            else speed = maxSpeed;
-        }
-        if (!isMoving) speed = 0;
-        transform.position = new(transform.position.x + speed, transform.position.y);
-        //rig.MovePosition(new Vector2(rig.position.x + speed, rig.position.y + rig.velocity.y));
-        /* if (rig.velocity.x < 5) rig.MovePosition(new Vector2(rig.position.x + speed, rig.position.y));
-         if (!isMoving)
-         {
-             speed = 0;
-             rig.velocity = new(0, rig.velocity.y);
-         }*/
+        if (speed > 0) transform.localScale = new(6, 6, 1);
+        else if (speed < 0) transform.localScale = new Vector3(-6, 6, 1);
+        transform.position = new Vector2(transform.position.x + speed, transform.position.y);
     }
 
-    private void Jump()
+    public void Attack(InputAction.CallbackContext context)
     {
-        isGrounded = Physics2D.OverlapArea(groundPoitnts[0].transform.position, groundPoitnts[1].transform.position, groundLayer);
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (context.performed)
         {
-            rig.AddForce(Vector2.up * jumpForce);
+            if (attackTimer <= 0)
+            {
+                attackObject.SetActive(true);
+                attackTimer = 0.5f;
+            }
+        }
+    }
+
+    public void Jump(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isGrounded = Physics2D.OverlapArea(groundPoitnts[0].transform.position, groundPoitnts[1].transform.position, groundLayer);
+            if (isGrounded)
+            {
+                rig.AddForce(Vector2.up * jumpForce);
+            }
+        }
+    }
+
+    void HandleTimers()
+    {
+        if(attackTimer >=0)
+        {
+            attackTimer -= Time.fixedDeltaTime;
         }
     }
 }
