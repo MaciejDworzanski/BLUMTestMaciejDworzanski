@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
+    private PlayerAnimation playerAnimation;
     [SerializeField]
     private float jumpForce;
 
@@ -22,10 +23,15 @@ public class PlayerMove : MonoBehaviour
     private GameObject attackObject;
 
     private float attackTimer;
+    private bool isAttacking;
+    private bool isFalling;
+    private bool isJumping;
+    private bool isRunning;
 
     private void Awake()
     {
         rig = GetComponent<Rigidbody2D>();
+        playerAnimation = GetComponent<PlayerAnimation>();
         playerInputActions = new();
         playerInputActions.Player.Enable();
         playerInputActions.Player.Jump.performed += Jump;
@@ -35,6 +41,7 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        Falling();
         speed = playerInputActions.Player.Movement.ReadValue<float>() / 10;
         HandleTimers();
         Movement();
@@ -43,8 +50,27 @@ public class PlayerMove : MonoBehaviour
 
     public void Movement()
     {
-        if (speed > 0) transform.localScale = new(6, 6, 1);
-        else if (speed < 0) transform.localScale = new Vector3(-6, 6, 1);
+        if (speed != 0)
+        {
+            if (speed > 0)
+            {
+                transform.localScale = new(6, 6, 1);
+            }
+            else if (speed < 0)
+            {
+                transform.localScale = new Vector3(-6, 6, 1);
+            }
+            if (!isRunning)
+            {
+                isRunning = true;
+                playerAnimation.RunningAnimation();
+            }
+        }
+        else if(isRunning)
+        {
+            isRunning = false;
+            playerAnimation.EndRunning();
+        }
         transform.position = new Vector2(transform.position.x + speed, transform.position.y);
     }
 
@@ -54,8 +80,10 @@ public class PlayerMove : MonoBehaviour
         {
             if (attackTimer <= 0)
             {
+                isAttacking = true;
                 attackObject.SetActive(true);
                 attackTimer = 0.5f;
+                playerAnimation.AttackAnimation();
             }
         }
     }
@@ -64,19 +92,43 @@ public class PlayerMove : MonoBehaviour
     {
         if (context.performed)
         {
-            isGrounded = Physics2D.OverlapArea(groundPoitnts[0].transform.position, groundPoitnts[1].transform.position, groundLayer);
             if (isGrounded)
             {
+                isJumping = true;
+                playerAnimation.JumpAnimation();
                 rig.AddForce(Vector2.up * jumpForce);
             }
         }
     }
 
+    public void Falling()
+    {
+        isGrounded = Physics2D.OverlapArea(groundPoitnts[0].transform.position, groundPoitnts[1].transform.position, groundLayer);
+        if (rig.velocity.y < 0)
+        {
+            isJumping = false;
+            isFalling = true;
+            playerAnimation.FallingAnimation();
+            playerAnimation.EndJump();
+        }
+        if(isGrounded && isFalling)
+        {
+            isFalling = false;
+            playerAnimation.EndFalling();
+        }
+    }
+
     void HandleTimers()
     {
-        if(attackTimer >=0)
+        if (attackTimer >= 0)
         {
             attackTimer -= Time.fixedDeltaTime;
+        }
+        else if (isAttacking)
+        {
+            isAttacking = false;
+            attackObject.SetActive(false);
+            playerAnimation.EndAttack();
         }
     }
 }
