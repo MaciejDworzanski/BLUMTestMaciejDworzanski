@@ -19,14 +19,16 @@ public class PlayerMove : MonoBehaviour
     PlayerInputActions playerInputActions;
 
     private float speed;
+
     [SerializeField]
     private GameObject attackObject;
-
     private float attackTimer;
+
     private bool isAttacking;
     private bool isFalling;
-    private bool isJumping;
     private bool isRunning;
+
+    private float damageTimer;
 
     private void Awake()
     {
@@ -47,7 +49,6 @@ public class PlayerMove : MonoBehaviour
         Movement();
     }
 
-
     public void Movement()
     {
         if (speed != 0)
@@ -66,7 +67,7 @@ public class PlayerMove : MonoBehaviour
                 playerAnimation.RunningAnimation();
             }
         }
-        else if(isRunning)
+        else if (isRunning)
         {
             isRunning = false;
             playerAnimation.EndRunning();
@@ -94,7 +95,6 @@ public class PlayerMove : MonoBehaviour
         {
             if (isGrounded)
             {
-                isJumping = true;
                 playerAnimation.JumpAnimation();
                 rig.AddForce(Vector2.up * jumpForce);
             }
@@ -106,7 +106,6 @@ public class PlayerMove : MonoBehaviour
         isGrounded = Physics2D.OverlapArea(groundPoitnts[0].transform.position, groundPoitnts[1].transform.position, groundLayer);
         if (rig.velocity.y < 0)
         {
-            isJumping = false;
             isFalling = true;
             playerAnimation.FallingAnimation();
             playerAnimation.EndJump();
@@ -130,6 +129,28 @@ public class PlayerMove : MonoBehaviour
             attackObject.SetActive(false);
             playerAnimation.EndAttack();
         }
+        if(damageTimer > 0)
+        {
+            damageTimer -= Time.fixedDeltaTime;
+        }
+    }
+
+    public void TakeDamage(int damage, bool pushLeft)
+    {
+        Global.Instance.hp -= damage;
+        Global.Instance.SetHPOnUI();
+        damageTimer = 0.5f;
+        if(pushLeft) rig.AddForce(new Vector2(-1, 1) * 300);
+        else rig.AddForce(new Vector2(1, 1) * 300);
+        if (Global.Instance.hp <= 0)
+        {
+            Dead();
+        }
+    }
+
+    void Dead()
+    {
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -138,6 +159,17 @@ public class PlayerMove : MonoBehaviour
         {
             Destroy(collision.gameObject);
             Global.Instance.money++;
+            Global.Instance.SetCoinsOnUI();
         }
+     /*   if(collision.CompareTag("enemyAttack"))
+        {
+            if (damageTimer <= 0)
+            {
+                if(transform.position.x < collision.transform.position.x)
+                    TakeDamage(1, true);
+                else TakeDamage(1, false);
+            }
+        }*/
+
     }
 }
