@@ -15,7 +15,6 @@ public class Mushroom : Enemy
     override protected void Dead(float timeToDestroy)
     {
         transform.GetChild(0).gameObject.tag = "Untagged";
-        Debug.Log(transform.GetChild(0).tag);
         anim.SetBool("isDead", true);
         base.Dead(timeToDestroy);
         Destroy(this);

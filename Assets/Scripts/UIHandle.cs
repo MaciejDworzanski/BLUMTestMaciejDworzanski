@@ -11,11 +11,13 @@ public class UIHandle : MonoBehaviour
     public Image endImage;
     private float color;
     public bool playerDead;
+    private float timeToReset;
     void Start()
     {
         Global.Instance.ui = this;
         SetCoins(Global.Instance.money);
         SetHP(Global.Instance.hp);
+        timeToReset = Global.Instance.timeToReset;
         color = 0;
     }
 
@@ -38,7 +40,7 @@ public class UIHandle : MonoBehaviour
 
     public void SetEndImage()
     {
-        color += Time.deltaTime/2f;
+        color += Time.deltaTime/timeToReset;
         endImage.color = new(0, 0, 0, color);
     }
 }

@@ -12,10 +12,12 @@ public class Slime : Enemy
     private bool groundIsThere;
     private bool wallIsHere;
     private float rotationAngle;
+    private Animator anim;
 
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         isPatrolling = false;
         if (!goLeft)
         {
@@ -29,6 +31,12 @@ public class Slime : Enemy
     {
         base.FixedUpdate();
         CheckIfGroundIsThere();
+    }
+
+    protected override void Dead(float timeToDestroy)
+    {
+        anim.SetBool("isDead", true);
+        base.Dead(timeToDestroy);
     }
 
     private void CheckIfGroundIsThere()

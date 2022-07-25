@@ -345,9 +345,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 4
-  damageDealOnCollision: 1
   leftPatrolPoint: {fileID: 0}
   rightPatrolPoint: {fileID: 0}
+  money: {fileID: 3864304301313074932, guid: 119927751f4160d4a8112d057953bdc5, type: 3}
+  moneyDrop: 2
   speed: 0.025
   findEdge: {fileID: 8333216791651961996}
   findWall: {fileID: 8333216791435767172}
@@ -355,3 +356,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   moveDirection: {fileID: 8333216790704321913}
+  goLeft: 0

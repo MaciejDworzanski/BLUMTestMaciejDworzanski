@@ -186,13 +186,4 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-   /* private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("enemyAttack"))
-        {
-            if (collision.transform.position.x < transform.position.x)
-                TakeDamage(1, false);
-            else TakeDamage(1, true);
-        }
-    }*/
 }

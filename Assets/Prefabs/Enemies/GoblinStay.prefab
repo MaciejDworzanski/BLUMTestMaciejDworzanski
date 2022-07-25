@@ -135,9 +135,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 5
-  damageDealOnCollision: 1
   leftPatrolPoint: {fileID: 0}
   rightPatrolPoint: {fileID: 0}
+  money: {fileID: 3864304301313074932, guid: 119927751f4160d4a8112d057953bdc5, type: 3}
+  moneyDrop: 3
   speed: 0.02
   distanceToAttack: 3
   attackObject: {fileID: 7512439464299619701}

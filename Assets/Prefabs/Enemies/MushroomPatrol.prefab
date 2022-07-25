@@ -184,6 +184,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8671612587121964665, guid: 29f87e5bf0da7dc44b0ec3c574d48915, type: 3}
+      propertyPath: money
+      value: 
+      objectReference: {fileID: 3864304301313074932, guid: 119927751f4160d4a8112d057953bdc5, type: 3}
+    - target: {fileID: 8671612587121964665, guid: 29f87e5bf0da7dc44b0ec3c574d48915, type: 3}
+      propertyPath: moneyDrop
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8671612587121964665, guid: 29f87e5bf0da7dc44b0ec3c574d48915, type: 3}
       propertyPath: leftPatrolPoint
       value: 
       objectReference: {fileID: 3162318927541049888}

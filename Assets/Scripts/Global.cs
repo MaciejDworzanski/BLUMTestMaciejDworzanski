@@ -8,6 +8,7 @@ public class Global : MonoBehaviour
     public static Global Instance { get; private set; }
     public int hp;
     public int money;
+    public float timeToReset;
     public UIHandle ui;
 
     private void Awake()
@@ -17,6 +18,7 @@ public class Global : MonoBehaviour
             Instance = this;
             hp = 3;
             money = 0;
+            if (timeToReset == 0) timeToReset = 2;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -44,7 +46,7 @@ public class Global : MonoBehaviour
     private IEnumerator ReloadSceneAfterWhile()
     {
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(timeToReset);
         hp = 3;
         SceneManager.LoadScene(0);
         StopCoroutine(ReloadSceneAfterWhile());

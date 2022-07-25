@@ -6,11 +6,13 @@ public class Enemy : MonoBehaviour
 {
     public int hp;
     protected float damageTimer;
-    public int damageDealOnCollision;
     public GameObject leftPatrolPoint;
+    public GameObject rightPatrolPoint;
+    public GameObject money;
+    public int moneyDrop;
     private SpriteRenderer sprite;
     
-    public GameObject rightPatrolPoint;
+
     protected bool isPatrolling;
     [SerializeField]
     protected float speed;
@@ -56,13 +58,6 @@ public class Enemy : MonoBehaviour
             TakeDamage(1);
     }
 
-    protected void DealDamageToPlayer(GameObject player)
-    {
-        if (player.GetComponent<PlayerMove>())
-            if (transform.position.x < player.transform.position.x)
-                player.GetComponent<PlayerMove>().TakeDamage(damageDealOnCollision, false);
-            else player.GetComponent<PlayerMove>().TakeDamage(damageDealOnCollision, true);
-    }
 
     protected void ChangeColorOnHit()
     {
@@ -83,6 +78,16 @@ public class Enemy : MonoBehaviour
     virtual protected void Dead(float timeToDestroy)
     {
         Destroy(gameObject, timeToDestroy);
+        if (money != null)
+        {
+            for (int i = 0; i < moneyDrop; i++)
+            {
+                GameObject coin = Instantiate(money, transform.position, Quaternion.identity);
+                float randomNumber = Random.Range(0.5f, 2.4f);
+                coin.GetComponent<Rigidbody2D>().AddForce(350 * new Vector2(Mathf.Cos(randomNumber), Mathf.Sin(randomNumber)));
+                Debug.Log($"Wyrzucam na {new Vector2(Mathf.Cos(randomNumber), Mathf.Sin(randomNumber))}");
+            }
+        }
         Destroy(this);
     }
 
