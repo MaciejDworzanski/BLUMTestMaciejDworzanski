@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8671612587121964664}
   - component: {fileID: 8671612587121964665}
   m_Layer: 7
-  m_Name: MushroomWithoutPoints
+  m_Name: MushroomStay
   m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,14 +168,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 656aa3a0919ff6f409ed07b5401ae3c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 10
-  damageTimer: 0
+  hp: 2
   damageDealOnCollision: 1
   leftPatrolPoint: {fileID: 0}
-  sprite: {fileID: 8671612587121964642}
   rightPatrolPoint: {fileID: 0}
   speed: 0.03
-  anim: {fileID: 8671612587121964664}
 --- !u!1 &8671612587941944591
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8671612587941944576}
   - component: {fileID: 8671612587941944577}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MushAttack
   m_TagString: enemyAttack
   m_Icon: {fileID: 0}

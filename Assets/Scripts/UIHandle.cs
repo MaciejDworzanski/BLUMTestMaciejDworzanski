@@ -8,14 +8,21 @@ public class UIHandle : MonoBehaviour
 {
     public TextMeshProUGUI coinsNumber;
     public Image[] hearths;
-    
+    public Image endImage;
+    private float color;
+    public bool playerDead;
     void Start()
     {
         Global.Instance.ui = this;
         SetCoins(Global.Instance.money);
         SetHP(Global.Instance.hp);
+        color = 0;
     }
 
+    private void Update()
+    {
+        if(playerDead) SetEndImage();
+    }
     public void SetCoins(int number)
     {
         coinsNumber.text = number.ToString();
@@ -27,5 +34,11 @@ public class UIHandle : MonoBehaviour
         {
             hearths[i].gameObject.SetActive(i < hp);
         }
+    }
+
+    public void SetEndImage()
+    {
+        color += Time.deltaTime/2f;
+        endImage.color = new(0, 0, 0, color);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Global : MonoBehaviour
 {
@@ -32,5 +33,20 @@ public class Global : MonoBehaviour
     public void SetHPOnUI()
     {
         ui.SetHP(hp);
+    }
+
+    public void ReloadScene()
+    {
+        ui.playerDead = true;
+        StartCoroutine(ReloadSceneAfterWhile());
+    }
+
+    private IEnumerator ReloadSceneAfterWhile()
+    {
+
+        yield return new WaitForSeconds(2);
+        hp = 3;
+        SceneManager.LoadScene(0);
+        StopCoroutine(ReloadSceneAfterWhile());
     }
 }

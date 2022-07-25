@@ -46,4 +46,9 @@ public class PlayerAnimation : MonoBehaviour
     {
         anim.SetBool("isRunning", false);
     }
+
+    public void DeadAnimation()
+    {
+        anim.SetBool("isDead", true);
+    }
 }

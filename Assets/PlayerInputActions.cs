@@ -79,6 +79,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""e87f9577-a4a9-42c8-ac90-d72cfe58464f"",
+                    ""path"": ""<HID::Game VIB Joystick>/button4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""1D Axis"",
                     ""id"": ""558baaf6-26e2-40f6-883d-1b8ad52d03d2"",
                     ""path"": ""1DAxis"",
@@ -123,6 +134,39 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""0403dfee-79cf-4567-82c7-0ce4b78132d8"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""d84df059-6ee1-4459-b670-45e3a9d32afc"",
+                    ""path"": ""<Joystick>/stick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""9ccd9260-9df2-4b12-b579-36fe7148f11c"",
+                    ""path"": ""<Joystick>/stick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""08920c36-173b-4b10-bd95-08269fdb8be9"",
                     ""path"": ""<Gamepad>/dpad/left"",
@@ -140,6 +184,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9937c7cc-d783-4620-aea2-15478c9135ac"",
+                    ""path"": ""<Joystick>/trigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -165,6 +220,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
             ""devices"": [
                 {
                     ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Joystick"",
+            ""bindingGroup"": ""Joystick"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Joystick>"",
                     ""isOptional"": false,
                     ""isOR"": false
                 }
@@ -297,6 +363,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         {
             if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
             return asset.controlSchemes[m_GamepadSchemeIndex];
+        }
+    }
+    private int m_JoystickSchemeIndex = -1;
+    public InputControlScheme JoystickScheme
+    {
+        get
+        {
+            if (m_JoystickSchemeIndex == -1) m_JoystickSchemeIndex = asset.FindControlSchemeIndex("Joystick");
+            return asset.controlSchemes[m_JoystickSchemeIndex];
         }
     }
     public interface IPlayerActions

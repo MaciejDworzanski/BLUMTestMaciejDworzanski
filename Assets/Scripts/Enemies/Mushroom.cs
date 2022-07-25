@@ -4,24 +4,20 @@ using UnityEngine;
 
 public class Mushroom : Enemy
 {
-    public Animator anim;
+    private Animator anim;
     
     void Start()
     {
+        anim = GetComponent<Animator>();
         if (isPatrolling) anim.SetBool("isPatrolling", true);
     }
 
-    override protected void FixedUpdate()
-    {
-        EnemyFixedUpdate();
-    }
-    
-
-
     override protected void Dead(float timeToDestroy)
     {
-        Destroy(gameObject, timeToDestroy);
+        transform.GetChild(0).gameObject.tag = "Untagged";
+        Debug.Log(transform.GetChild(0).tag);
         anim.SetBool("isDead", true);
+        base.Dead(timeToDestroy);
         Destroy(this);
     }
 }

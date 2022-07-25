@@ -5,10 +5,10 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public int hp;
-    public float damageTimer;
+    protected float damageTimer;
     public int damageDealOnCollision;
     public GameObject leftPatrolPoint;
-    public SpriteRenderer sprite;
+    private SpriteRenderer sprite;
     //private float maxDamageTimer;
     
     public GameObject rightPatrolPoint;
@@ -44,17 +44,25 @@ public class Enemy : MonoBehaviour
         if (isPatrolling) Patrolling();
         if (damageTimer > 0) ChangeColorOnHit();
     }
+
     protected void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("playerAttack"))
             TakeDamage(1);
+    }
 
-        if(collision.CompareTag("Player"))
-        {
-            if (transform.position.x < collision.transform.position.x)
-                collision.GetComponent<PlayerMove>().TakeDamage(damageDealOnCollision, false);
-            else collision.GetComponent<PlayerMove>().TakeDamage(damageDealOnCollision, true);
-        }
+    protected void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("playerAttack"))
+            TakeDamage(1);
+    }
+
+    protected void DealDamageToPlayer(GameObject player)
+    {
+        if (player.GetComponent<PlayerMove>())
+            if (transform.position.x < player.transform.position.x)
+                player.GetComponent<PlayerMove>().TakeDamage(damageDealOnCollision, false);
+            else player.GetComponent<PlayerMove>().TakeDamage(damageDealOnCollision, true);
     }
 
     protected void ChangeColorOnHit()
@@ -68,7 +76,7 @@ public class Enemy : MonoBehaviour
         if (damageTimer <= 0)
         {
             hp -= damage;
-            damageTimer = 0.2f;
+            damageTimer = 0.5f;
             if (hp <= 0) Dead(0.5f);
         }
     }
@@ -79,7 +87,7 @@ public class Enemy : MonoBehaviour
         Destroy(this);
     }
 
-    protected void Patrolling()
+    virtual protected void Patrolling()
     {
         if (goingLeft)
         {

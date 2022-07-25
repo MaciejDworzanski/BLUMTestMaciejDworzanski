@@ -72,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3162318927673590318}
   m_Layer: 0
-  m_Name: MushroomWithPoints
+  m_Name: MushroomPatrol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,6 +191,10 @@ PrefabInstance:
       propertyPath: rightPatrolPoint
       value: 
       objectReference: {fileID: 3162318927647551223}
+    - target: {fileID: 8671612587941944591, guid: 29f87e5bf0da7dc44b0ec3c574d48915, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29f87e5bf0da7dc44b0ec3c574d48915, type: 3}
 --- !u!4 &3162318928059712093 stripped

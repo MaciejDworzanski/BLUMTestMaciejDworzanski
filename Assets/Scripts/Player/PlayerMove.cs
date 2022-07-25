@@ -30,10 +30,13 @@ public class PlayerMove : MonoBehaviour
 
     private float damageTimer;
 
-    private void Awake()
+    private SpriteRenderer sprite;
+
+    private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         playerAnimation = GetComponent<PlayerAnimation>();
+        sprite = GetComponent<SpriteRenderer>();
         playerInputActions = new();
         playerInputActions.Player.Enable();
         playerInputActions.Player.Jump.performed += Jump;
@@ -132,6 +135,8 @@ public class PlayerMove : MonoBehaviour
         if(damageTimer > 0)
         {
             damageTimer -= Time.fixedDeltaTime;
+            float color = 1 - damageTimer * 2;
+            sprite.color = new(1, color, color , 1);
         }
     }
 
@@ -142,18 +147,27 @@ public class PlayerMove : MonoBehaviour
             Global.Instance.hp -= damage;
             Global.Instance.SetHPOnUI();
             damageTimer = 0.5f;
-            if (pushLeft) rig.AddForce(new Vector2(-1, 1) * 300);
-            else rig.AddForce(new Vector2(1, 1) * 300);
+
             if (Global.Instance.hp <= 0)
             {
                 Dead();
+            }
+            else
+            {
+                if (pushLeft) rig.AddForce(new Vector2(-1, 1) * 300);
+                else rig.AddForce(new Vector2(1, 1) * 300);
             }
         }
     }
 
     void Dead()
     {
-
+        playerInputActions.Player.Disable();
+        playerAnimation.DeadAnimation();
+        Destroy(gameObject, 2);
+        rig.velocity = new(0, 0);
+        Global.Instance.ReloadScene();
+        Destroy(this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -164,15 +178,21 @@ public class PlayerMove : MonoBehaviour
             Global.Instance.money++;
             Global.Instance.SetCoinsOnUI();
         }
-     /*   if(collision.CompareTag("enemyAttack"))
+        if (collision.CompareTag("enemyAttack"))
         {
-            if (damageTimer <= 0)
-            {
-                if(transform.position.x < collision.transform.position.x)
-                    TakeDamage(1, true);
-                else TakeDamage(1, false);
-            }
-        }*/
-
+            if (collision.transform.position.x < transform.position.x)
+                TakeDamage(1, false);
+            else TakeDamage(1, true);
+        }
     }
+
+   /* private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("enemyAttack"))
+        {
+            if (collision.transform.position.x < transform.position.x)
+                TakeDamage(1, false);
+            else TakeDamage(1, true);
+        }
+    }*/
 }
