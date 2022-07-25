@@ -83,7 +83,7 @@ public class Enemy : MonoBehaviour
             for (int i = 0; i < moneyDrop; i++)
             {
                 GameObject coin = Instantiate(money, transform.position, Quaternion.identity);
-                float randomNumber = Random.Range(0.5f, 2.4f);
+                float randomNumber = Random.Range(0.5f, 2.8f);
                 coin.GetComponent<Rigidbody2D>().AddForce(350 * new Vector2(Mathf.Cos(randomNumber), Mathf.Sin(randomNumber)));
                 Debug.Log($"Wyrzucam na {new Vector2(Mathf.Cos(randomNumber), Mathf.Sin(randomNumber))}");
             }
