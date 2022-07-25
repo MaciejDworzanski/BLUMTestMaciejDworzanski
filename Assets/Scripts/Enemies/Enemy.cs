@@ -9,7 +9,6 @@ public class Enemy : MonoBehaviour
     public int damageDealOnCollision;
     public GameObject leftPatrolPoint;
     private SpriteRenderer sprite;
-    //private float maxDamageTimer;
     
     public GameObject rightPatrolPoint;
     protected bool isPatrolling;
